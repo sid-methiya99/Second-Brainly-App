@@ -58,17 +58,21 @@ const ContentSchema = new mongoose.Schema({
       {
          type: mongoose.Types.ObjectId,
          ref: 'Tags',
+         require: true,
       },
    ],
    userId: {
       type: mongoose.Types.ObjectId,
       ref: 'Users',
+      require: true,
    },
 })
 
 const TagsSchema = new mongoose.Schema({
    title: {
       type: String,
+      require: true,
+      unique: true,
    },
 })
 

@@ -19,6 +19,7 @@ contentRouter.post('/', UserMiddleWare, async (req, res) => {
          link: link,
          title: title,
          tags: handleTag,
+         userId: userId,
       })
 
       res.status(ResponseCode.Success).json({
@@ -28,5 +29,43 @@ contentRouter.post('/', UserMiddleWare, async (req, res) => {
       console.error(error)
    }
 })
-contentRouter.get('/', (req, res) => {})
-contentRouter.delete('/', (req, res) => {})
+
+contentRouter.get('/', UserMiddleWare, async (req, res) => {
+   const userId = req.userId
+
+   try {
+      const fetchContent = await Content.find({
+         userId: userId,
+      }).populate('userId', 'username')
+
+      res.status(ResponseCode.Success).json({
+         fetchContent,
+      })
+   } catch (error) {
+      console.error(error)
+   }
+})
+
+contentRouter.delete('/', UserMiddleWare, async (req, res) => {
+   const contentId = req.body.contentId
+   const userId = req.userId
+
+   try {
+      const deleteContent = await Content.findByIdAndDelete({
+         _id: contentId,
+         userId: userId,
+      })
+
+      if (!deleteContent) {
+         return res.status(ResponseCode.NotFound).json({
+            msg: 'Content not found',
+         })
+      }
+
+      res.status(ResponseCode.Success).json({
+         msg: 'Content deleted successfully',
+      })
+   } catch (error) {
+      console.error(error)
+   }
+})
