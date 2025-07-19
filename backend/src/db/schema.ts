@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt'
 interface IUser extends Document {
    username: string
    password: string
+   isValidPassword(password: string): Promise<boolean>
 }
 
 const UserSchema = new mongoose.Schema<IUser>({
@@ -32,7 +33,7 @@ UserSchema.pre<IUser>('save', async function (next) {
 
 UserSchema.methods.isValidPassword = async function (password: string) {
    try {
-      await bcrypt.compare(password, this.password)
+      return await bcrypt.compare(password, this.password)
    } catch (error) {
       throw new Error('Password comparsion failed')
    }
