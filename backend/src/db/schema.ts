@@ -1,0 +1,87 @@
+import mongoose, { Document } from 'mongoose'
+import bcrypt from 'bcrypt'
+
+interface IUser extends Document {
+   username: string
+   password: string
+}
+
+const UserSchema = new mongoose.Schema<IUser>({
+   username: {
+      type: String,
+      require: true,
+      unique: true,
+   },
+   password: {
+      type: String,
+      require: true,
+   },
+})
+
+UserSchema.pre<IUser>('save', async function (next) {
+   try {
+      if (!this.isModified('password')) return next()
+
+      const salt = await bcrypt.genSalt(10)
+      this.password = await bcrypt.hash(this.password, salt)
+      next()
+   } catch (error) {
+      next(error as Error)
+   }
+})
+
+UserSchema.methods.isValidPassword = async function (password: string) {
+   try {
+      await bcrypt.compare(password, this.password)
+   } catch (error) {
+      throw new Error('Password comparsion failed')
+   }
+}
+
+const typeEnum: string[] = ['image', 'video', 'article', 'audio']
+const ContentSchema = new mongoose.Schema({
+   link: {
+      type: String,
+      require: true,
+   },
+   type: {
+      type: String,
+      enum: typeEnum,
+      require: true,
+   },
+   title: {
+      type: String,
+      require: true,
+   },
+   tags: [
+      {
+         type: mongoose.Types.ObjectId,
+         ref: 'Tags',
+      },
+   ],
+   userId: {
+      type: mongoose.Types.ObjectId,
+      ref: 'Users',
+   },
+})
+
+const TagsSchema = new mongoose.Schema({
+   title: {
+      type: String,
+   },
+})
+
+const LinkSchema = new mongoose.Schema({
+   hash: {
+      type: String,
+   },
+   userId: {
+      type: mongoose.Types.ObjectId,
+      ref: 'Users',
+   },
+})
+
+export const Users = mongoose.model('Users', UserSchema)
+export const Content = mongoose.model('Content', ContentSchema)
+export const Tags = mongoose.model('Tags', TagsSchema)
+export const Links = mongoose.model('Links', LinkSchema)
