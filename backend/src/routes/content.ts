@@ -3,12 +3,26 @@ import { Content, Tags } from '../db/schema'
 import { UserMiddleWare } from '../utils/middleware'
 import { ResponseCode } from '../utils/utils'
 import { handleTagId } from '../utils/handleTags'
+import { ContentValidation } from '../utils/zodTypes'
 
 export const contentRouter = express.Router()
 
 contentRouter.post('/', UserMiddleWare, async (req, res) => {
    const { type, link, title, tags } = req.body
    const userId = req.userId
+
+   const contentValidation = ContentValidation.safeParse({
+      type,
+      link,
+      title,
+      tags,
+   })
+
+   if (!contentValidation.success) {
+      return res.status(ResponseCode.InputError).json({
+         msg: 'Invalid inputs',
+      })
+   }
 
    try {
       // This function return tagIds

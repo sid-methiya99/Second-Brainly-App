@@ -3,6 +3,7 @@ import jsonwebtoken from 'jsonwebtoken'
 import { Users } from '../db/schema'
 import { ResponseCode } from '../utils/utils'
 import { JWT_SECRET } from '../utils/config'
+import { SignInValidation, SignUpValidation } from '../utils/zodTypes'
 
 export const userRouter = express.Router()
 
@@ -10,6 +11,16 @@ userRouter.post('/signup', async (req, res) => {
    const username = req.body.username
    const password = req.body.password
 
+   const validateInput = SignUpValidation.safeParse({
+      username,
+      password,
+   })
+
+   if (!validateInput.success) {
+      return res.status(ResponseCode.InputError).json({
+         msg: 'Invalid inputs',
+      })
+   }
    const checkUsername = await Users.findOne({
       username: username,
    })
@@ -37,6 +48,16 @@ userRouter.post('/signin', async (req, res) => {
    const username = req.body.username
    const password = req.body.password
 
+   const validateInput = SignInValidation.safeParse({
+      username,
+      password,
+   })
+
+   if (!validateInput.success) {
+      return res.status(ResponseCode.InputError).json({
+         msg: 'Invalid inputs',
+      })
+   }
    const checkUserExists = await Users.findOne({
       username: username,
    })
