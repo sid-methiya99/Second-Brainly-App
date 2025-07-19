@@ -3,10 +3,9 @@ import cors from 'cors'
 import { mainRouter } from './routes'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import { MONGO_URL, PORT } from './utils/config'
 
 dotenv.config()
-const URL = process.env.MONGO_URL!
-const PORT = process.env.PORT!
 
 const app = express()
 app.use(cors())
@@ -15,7 +14,7 @@ app.use('/api/v1', mainRouter)
 
 const connectDB = async () => {
    try {
-      await mongoose.connect(URL)
+      await mongoose.connect(MONGO_URL)
    } catch (error) {
       console.error(error)
       process.exit()

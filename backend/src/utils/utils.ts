@@ -3,4 +3,5 @@ export enum ResponseCode {
    NotFound = 404,
    Error = 500,
    Conflict = 409,
+   UnAuthorised = 401,
 }
