@@ -5,7 +5,7 @@ interface ButtonProps {
    variant: Variant
    text: string
    startIcon?: ReactElement
-   onClick?: () => void
+   onClick?: (e: any) => any
 }
 const variantType: Record<Variant, string> = {
    primary:
@@ -15,7 +15,7 @@ const variantType: Record<Variant, string> = {
 }
 export const Button = ({ variant, text, startIcon, onClick }: ButtonProps) => {
    return (
-      <button className={variantType[variant]} onClick={onClick}>
+      <button className={variantType[variant]} onClick={onClick} type="submit">
          {startIcon && <div className="pr-2">{startIcon}</div>}
          <span>{text}</span>
       </button>
