@@ -1,15 +1,6 @@
-# backend
+### Things remaining
 
-To install dependencies:
-
-```bash
-bun install
-```
-
-To run:
-
-```bash
-bun run index.ts
-```
-
-This project was created using `bun init` in bun v1.2.18. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+- [] User sends us raw youtube link convert it into embed before saving it to database
+- [] User sends us raw twitter link convert it into embed before saving it to database
+- [] Get title in case it is a youtbe video 
+- [] Somehow try to get title of tweets using AI
