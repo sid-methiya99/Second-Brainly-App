@@ -4,7 +4,7 @@ type Variant = 'primary' | 'secondary'
 interface ButtonProps {
    variant: Variant
    text: string
-   startIcon?: ReactElement
+   startIcon: ReactElement
    onClick?: () => void
 }
 const variantType: Record<Variant, string> = {
