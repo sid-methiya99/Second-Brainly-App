@@ -1,12 +1,8 @@
-import { Card } from './components/Card'
 import './index.css'
+import { Home } from './pages/Home'
 
 function App() {
-   return (
-      <div>
-         <Card />
-      </div>
-   )
+   return <Home />
 }
 
 export default App

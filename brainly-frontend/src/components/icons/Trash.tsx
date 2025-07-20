@@ -1,6 +1,6 @@
 export interface SvgAttributes {
-   size: string
-   color: string
+   size?: string
+   color?: string
 }
 export const Trash = ({ size, color }: SvgAttributes) => {
    return (
