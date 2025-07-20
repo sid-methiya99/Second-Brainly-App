@@ -4,19 +4,19 @@ type Variant = 'primary' | 'secondary'
 interface ButtonProps {
    variant: Variant
    text: string
-   startIcon: ReactElement
+   startIcon?: ReactElement
    onClick?: () => void
 }
 const variantType: Record<Variant, string> = {
    primary:
-      'bg-purple-600 text-white font-normal text-lg px-4 py-2 rounded text-center mt-10 rounded-sm flex items-center',
+      'bg-purple-600 text-white font-normal text-lg px-4 py-2 rounded-xl text-center  rounded-xl-sm flex items-center cursor-pointer',
    secondary:
-      'bg-purple-200 text-purple-600 font-normal text-lg px-4 py-2 rounded text-center mt-10 rounded-sm flex items-center',
+      'bg-purple-500 text-purple-600 font-normal text-lg px-4 py-2 rounded-xl text-center  rounded-xl-sm flex items-center cursor-pointer',
 }
-export const Button = ({ variant, text, startIcon }: ButtonProps) => {
+export const Button = ({ variant, text, startIcon, onClick }: ButtonProps) => {
    return (
-      <button className={variantType[variant]}>
-         <div className="pr-2">{startIcon}</div>
+      <button className={variantType[variant]} onClick={onClick}>
+         {startIcon && <div className="pr-2">{startIcon}</div>}
          <span>{text}</span>
       </button>
    )
