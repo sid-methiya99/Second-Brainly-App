@@ -27,13 +27,27 @@ contentRouter.post('/', UserMiddleWare, async (req, res) => {
    try {
       // This function return tagIds
       const handleTag = await handleTagId(tags)
+      const currentDate = new Date()
+      const year = currentDate.getFullYear()
+      let month = currentDate.getMonth() + 1 // Months are 0-indexed, so add 1
+      let day = currentDate.getDate()
 
+      // Add leading zeros if month or day is less than 10
+      if (month < 10) {
+         month = parseInt('0' + month)
+      }
+      if (day < 10) {
+         day = parseInt('0' + day)
+      }
+
+      const formattedDate = `${day}-${month}-${year}`
       const addContent = await Content.create({
          type: type,
          link: link,
          title: title,
          tags: handleTag,
          userId: userId,
+         date: formattedDate,
       })
 
       res.status(ResponseCode.Success).json({

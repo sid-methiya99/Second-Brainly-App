@@ -13,6 +13,6 @@ export const SignInValidation = z.object({
 export const ContentValidation = z.object({
    link: z.url(),
    title: z.string(),
-   type: z.enum(['document', 'tweet', 'youtube', 'link']),
+   type: z.enum(['document', 'tweet', 'video', 'link']),
    tags: z.string().array(),
 })

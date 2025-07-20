@@ -61,6 +61,9 @@ const ContentSchema = new mongoose.Schema({
          require: true,
       },
    ],
+   date: {
+      type: String,
+   },
    userId: {
       type: mongoose.Types.ObjectId,
       ref: 'Users',
