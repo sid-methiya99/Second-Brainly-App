@@ -34,20 +34,13 @@ contentRouter.post('/', UserMiddleWare, async (req, res) => {
       // This function return tagIds
       const handleTag = await handleTagId(tags)
       let finalUrl = link
-      let finalType = type
-
-      if (finalType === 'Youtube') {
-         finalType = 'video'
-      } else if (finalType === 'Twitter') {
-         finalType = 'article'
-      }
 
       if (finalUrl.includes('youtu.be')) {
          finalUrl = parseUrl(finalUrl)
       }
 
       const addContent = await Content.create({
-         type: finalType,
+         type: type,
          link: finalUrl,
          title: title,
          tags: handleTag,
@@ -83,6 +76,7 @@ contentRouter.delete('/', UserMiddleWare, async (req, res) => {
    const contentId = req.body.contentId
    const userId = req.userId
 
+   console.log(contentId)
    try {
       const deleteContent = await Content.findByIdAndDelete({
          _id: contentId,

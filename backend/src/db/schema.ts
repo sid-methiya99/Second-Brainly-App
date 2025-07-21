@@ -39,7 +39,7 @@ UserSchema.methods.isValidPassword = async function (password: string) {
    }
 }
 
-const typeEnum: string[] = ['image', 'video', 'article', 'audio']
+const typeEnum: string[] = ['image', 'Twitter', 'Youtube', 'Notion']
 const ContentSchema = new mongoose.Schema({
    link: {
       type: String,
