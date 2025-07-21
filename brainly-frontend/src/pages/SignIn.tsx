@@ -4,9 +4,11 @@ import { Button } from '../components/Button'
 import { Input } from '../components/Input'
 import axios from 'axios'
 import { BACKEND_URL } from '../config'
+import { useNavigate } from 'react-router-dom'
 export const SignIn = () => {
    const usernameRef = useRef<HTMLInputElement>()
    const passwordRef = useRef<HTMLInputElement>()
+   const navigate = useNavigate()
 
    const signIn = async (e: any) => {
       e.preventDefault()
@@ -23,6 +25,10 @@ export const SignIn = () => {
          })
 
          console.log(res)
+         const jwt = res.data.token
+         localStorage.setItem('token', jwt)
+
+         navigate('/home')
       } catch (error) {
          console.error(error)
       }

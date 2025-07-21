@@ -41,7 +41,10 @@ export const Navbar = () => {
          </div>
          <div className="mt-3 p-2 px-5 ">
             {NavLinks.map(({ title, imgLink }) => (
-               <div className="flex items-center gap-3 mb-1 py-2 px-2 cursor-pointer hover:bg-gray-200 rounded transition-colors duration-150">
+               <div
+                  key={title}
+                  className="flex items-center gap-3 mb-1 py-2 px-2 cursor-pointer hover:bg-gray-200 rounded transition-colors duration-150"
+               >
                   {imgLink}
                   <p className="font-bold text-xl text-gray-700 text-center">
                      {title}
