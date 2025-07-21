@@ -10,6 +10,9 @@ export const SignIn = () => {
    const passwordRef = useRef<HTMLInputElement>()
    const navigate = useNavigate()
 
+   const handleSignUp = () => {
+      navigate('/signup')
+   }
    const signIn = async (e: any) => {
       e.preventDefault()
       try {
@@ -79,7 +82,10 @@ export const SignIn = () => {
                   </div>
                   <div className="text-neutral-500 text-xl">
                      Don't have an account?{' '}
-                     <a href="/" className="text-red-600">
+                     <a
+                        className="text-red-600 cursor-pointer underline"
+                        onClick={handleSignUp}
+                     >
                         SignUp
                      </a>
                   </div>

@@ -7,7 +7,7 @@ export const Home = () => {
          <div className="w-72">
             <Navbar />
          </div>
-         <div className="flex-1 bg-[#F9FBFC]">
+         <div className="flex-1 bg-[#F9FBFC] h-screen">
             <MainContent />
          </div>
       </div>

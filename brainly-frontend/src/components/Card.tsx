@@ -1,22 +1,51 @@
+import { useEffect, useRef, useState } from 'react'
 import { FileIcon } from './icons/FileIcon'
 import { ShareIcon } from './icons/ShareIcon'
 import { Trash } from './icons/Trash'
+import axios from 'axios'
+import { BACKEND_URL } from '../config'
+import { token } from './hooks/handleFormSubmission'
+import { useContent } from './hooks/useContent'
 export interface TagType {
    _id: string
    title: string
 }
 
 export interface CardProps {
+   _id: string
    type: string
    link: string
    title: string
    tags: TagType[]
    date?: string
+   onDelete?: (id: string) => void
 }
 
-export const Card = ({ type, link, title, tags, date }: CardProps) => {
+export const Card = ({
+   onDelete,
+   _id,
+   type,
+   link,
+   title,
+   tags,
+   date,
+}: CardProps) => {
+   const handleDelete = async () => {
+      const res = await axios.delete(`${BACKEND_URL}api/v1/content/`, {
+         data: {
+            contentId: _id,
+         },
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      })
+      onDelete?.(_id)
+   }
    return (
-      <div className="bg-white rounded-md border border-gray-200 max-w-80 max-h-[550px] flex flex-col justify-between py-2 px-4 mt-10 mb-10">
+      <div
+         key={_id}
+         className="bg-white rounded-md border border-gray-200 max-w-80 max-h-[550px] flex flex-col justify-between py-2 px-4 mt-10 mb-10"
+      >
          <div>
             {/* Top: Title + Icons */}
             <div className="flex justify-between">
@@ -28,13 +57,15 @@ export const Card = ({ type, link, title, tags, date }: CardProps) => {
                   <a href={link} target="_blank">
                      <ShareIcon size="size-5" color="#374151" />
                   </a>
-                  <Trash size="size-5" color="#374151" />
+                  <div className="cursor-pointer" onClick={handleDelete}>
+                     <Trash size="size-5" color="#374151" />
+                  </div>
                </div>
             </div>
 
             {/* Middle: Content */}
             <div className="mt-5 px-2 ">
-               {type === 'video' && (
+               {type === 'Youtube' && (
                   <iframe
                      className="w-full h-52 rounded-md"
                      src={link}
@@ -44,7 +75,7 @@ export const Card = ({ type, link, title, tags, date }: CardProps) => {
                      allowFullScreen
                   ></iframe>
                )}
-               {type === 'article' && (
+               {type === 'Twitter' && (
                   <div className="w-full h-72 overflow-hidden rounded-md">
                      <blockquote className="twitter-tweet w-full">
                         <a href={link}></a>

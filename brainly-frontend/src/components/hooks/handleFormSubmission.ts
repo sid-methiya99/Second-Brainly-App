@@ -9,13 +9,13 @@ interface formTypes {
    date?: string
 }
 
+export const token = localStorage.getItem('token')
 export const useHandleSubmit = async ({
    title,
    link,
    tags,
    type,
 }: formTypes) => {
-   const token = localStorage.getItem('token')
    try {
       const data = await axios.post(
          `${BACKEND_URL}api/v1/content/`,

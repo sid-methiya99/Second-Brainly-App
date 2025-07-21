@@ -6,10 +6,12 @@ import { ShareIcon } from './icons/ShareIcon'
 import { Card, type CardProps } from './Card'
 import { useContent } from './hooks/useContent'
 import { useNavigate } from 'react-router-dom'
+import { CreateBrainModal } from './CreateBrainModal'
 
 export const MainContent = () => {
-   const [modalOpen, setModelOpen] = useState(false)
-   const { contents, res } = useContent()
+   const [formModalOpen, setFormModelOpen] = useState(false)
+   const [shareModalOpen, setShareModalOpen] = useState(false)
+   const { contents, res, onDelete } = useContent()
    const navigate = useNavigate()
 
    const handleLogout = () => {
@@ -19,16 +21,23 @@ export const MainContent = () => {
 
    useEffect(() => {
       res()
-   }, [modalOpen])
+   }, [formModalOpen])
+
    return (
       <div className="bg-[#F9FBFC]">
          <CreateContentModal
-            open={modalOpen}
+            open={formModalOpen}
             onClose={() => {
-               setModelOpen(false)
+               setFormModelOpen(false)
             }}
          />
-         <div className=" w-full  h-fit">
+         <CreateBrainModal
+            open={shareModalOpen}
+            onClose={() => {
+               setShareModalOpen(false)
+            }}
+         />
+         <div className=" w-full h-fit">
             <div className="mt-8 mx-10 ">
                <div className="flex justify-between ">
                   <div className="flex justify-center items-center">
@@ -41,13 +50,16 @@ export const MainContent = () => {
                         startIcon={
                            <ShareIcon size="size-5" color="currentColor" />
                         }
+                        onClick={() => {
+                           setShareModalOpen(true)
+                        }}
                      />
                      <Button
                         variant="primary"
                         text="Add Content"
                         startIcon={<PlusIcon />}
                         onClick={() => {
-                           setModelOpen(true)
+                           setFormModelOpen(true)
                         }}
                      />
                      <Button
@@ -61,13 +73,15 @@ export const MainContent = () => {
             {/* Card Component */}
             <div className="grid grid-cols-3 px-10">
                {contents?.map(
-                  ({ link, type, title, tags, date }: CardProps) => (
+                  ({ _id, link, type, title, tags, date }: CardProps) => (
                      <Card
+                        _id={_id}
                         type={type}
                         link={link}
                         title={title}
                         tags={tags}
                         date={date}
+                        onDelete={onDelete}
                      />
                   )
                )}

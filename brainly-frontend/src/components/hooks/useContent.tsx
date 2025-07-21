@@ -1,10 +1,15 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { BACKEND_URL } from '../../config'
+import { token } from './handleFormSubmission'
+import type { CardProps } from '../Card'
 
 export const useContent = () => {
-   const [contents, setContents] = useState([])
-   const token = localStorage.getItem('token')
+   const [contents, setContents] = useState<CardProps[]>([])
+
+   const onDelete = (id: string) => {
+      setContents((prev) => prev.filter((t) => t._id !== id))
+   }
 
    const res = async () => {
       try {
@@ -15,14 +20,10 @@ export const useContent = () => {
          })
 
          setContents(response.data.fetchContent)
-         console.log(response.data)
       } catch (error) {
          console.error(error)
       }
    }
 
-   useEffect(() => {
-      res()
-   }, [])
-   return { contents, res }
+   return { contents, res, onDelete }
 }

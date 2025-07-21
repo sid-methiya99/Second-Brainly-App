@@ -5,7 +5,7 @@ import { Input } from './Input'
 import { category, tags } from './utils/staticContent'
 import { useHandleSubmit } from './hooks/handleFormSubmission'
 
-interface ModalTypes {
+export interface ModalTypes {
    open: boolean
    onClose?: () => void
 }
