@@ -69,7 +69,7 @@ contentRouter.get('/', UserMiddleWare, async (req, res) => {
    try {
       const fetchContent = await Content.find({
          userId: userId,
-      }).populate('userId', 'username')
+      }).populate('tags', 'title')
 
       res.status(ResponseCode.Success).json({
          fetchContent,
