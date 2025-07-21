@@ -4,6 +4,8 @@ import { UserMiddleWare } from '../utils/middleware'
 import { ResponseCode } from '../utils/utils'
 import { handleTagId } from '../utils/handleTags'
 import { ContentValidation } from '../utils/zodTypes'
+import { formattedDate } from '../utils/handleDate'
+import { parseUrl } from '../utils/parseUrl'
 
 export const contentRouter = express.Router()
 
@@ -27,23 +29,15 @@ contentRouter.post('/', UserMiddleWare, async (req, res) => {
    try {
       // This function return tagIds
       const handleTag = await handleTagId(tags)
-      const currentDate = new Date()
-      const year = currentDate.getFullYear()
-      let month = currentDate.getMonth() + 1 // Months are 0-indexed, so add 1
-      let day = currentDate.getDate()
+      let finalUrl = link
 
-      // Add leading zeros if month or day is less than 10
-      if (month < 10) {
-         month = parseInt('0' + month)
-      }
-      if (day < 10) {
-         day = parseInt('0' + day)
+      if (finalUrl.includes('youtu.be')) {
+         finalUrl = parseUrl(finalUrl)
       }
 
-      const formattedDate = `${day}-${month}-${year}`
       const addContent = await Content.create({
          type: type,
-         link: link,
+         link: finalUrl,
          title: title,
          tags: handleTag,
          userId: userId,
