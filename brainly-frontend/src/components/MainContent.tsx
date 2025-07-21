@@ -1,20 +1,34 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from './Button'
 import { CreateContentModal } from './CreateContentModal'
 import { PlusIcon } from './icons/PlusIcon'
 import { ShareIcon } from './icons/ShareIcon'
+import { Card, type CardProps } from './Card'
+import { useContent } from './hooks/useContent'
+import { useNavigate } from 'react-router-dom'
 
 export const MainContent = () => {
    const [modalOpen, setModelOpen] = useState(false)
+   const { contents, res } = useContent()
+   const navigate = useNavigate()
+
+   const handleLogout = () => {
+      navigate('/')
+      localStorage.clear()
+   }
+
+   useEffect(() => {
+      res()
+   }, [modalOpen])
    return (
-      <div>
+      <div className="bg-[#F9FBFC]">
          <CreateContentModal
             open={modalOpen}
             onClose={() => {
                setModelOpen(false)
             }}
          />
-         <div className=" w-full bg-[#F9FBFC] h-screen ">
+         <div className=" w-full  h-fit">
             <div className="mt-8 mx-10 ">
                <div className="flex justify-between ">
                   <div className="flex justify-center items-center">
@@ -36,12 +50,28 @@ export const MainContent = () => {
                            setModelOpen(true)
                         }}
                      />
+                     <Button
+                        variant="danger"
+                        text="Logout"
+                        onClick={handleLogout}
+                     />
                   </div>
                </div>
             </div>
-
             {/* Card Component */}
-            <div></div>
+            <div className="grid grid-cols-3 px-10">
+               {contents?.map(
+                  ({ link, type, title, tags, date }: CardProps) => (
+                     <Card
+                        type={type}
+                        link={link}
+                        title={title}
+                        tags={tags}
+                        date={date}
+                     />
+                  )
+               )}
+            </div>
          </div>
       </div>
    )

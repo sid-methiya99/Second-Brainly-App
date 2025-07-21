@@ -5,11 +5,8 @@ import { YoutubeIcon } from './icons/YoutubeIcon'
 import { FileIcon } from './icons/FileIcon'
 import { Links } from './icons/Links'
 import { HashTag } from './icons/HashTag'
+import type { NavContent } from './utils/navbarContent'
 
-interface NavContent {
-   title: string
-   imgLink: ReactElement
-}
 export const Navbar = () => {
    const NavLinks: NavContent[] = [
       {
@@ -33,6 +30,7 @@ export const Navbar = () => {
          imgLink: <HashTag />,
       },
    ]
+
    return (
       <div className="h-screen w-72  bg-white border-slate-200 border-r fixed left-0 top-0">
          <div className="flex items-center gap-1 mt-2 ml-3">
