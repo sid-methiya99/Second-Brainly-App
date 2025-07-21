@@ -13,30 +13,41 @@ contentRouter.post('/', UserMiddleWare, async (req, res) => {
    const { type, link, title, tags } = req.body
    const userId = req.userId
 
-   const contentValidation = ContentValidation.safeParse({
-      type,
-      link,
-      title,
-      tags,
-   })
-
-   if (!contentValidation.success) {
-      return res.status(ResponseCode.InputError).json({
-         msg: 'Invalid inputs',
+   try {
+      const contentValidation = ContentValidation.safeParse({
+         type,
+         link,
+         title,
+         tags,
       })
+
+      if (!contentValidation.success) {
+         return res.status(ResponseCode.InputError).json({
+            msg: 'Invalid inputs',
+         })
+      }
+   } catch (error) {
+      console.error(error)
    }
 
    try {
       // This function return tagIds
       const handleTag = await handleTagId(tags)
       let finalUrl = link
+      let finalType = type
+
+      if (finalType === 'Youtube') {
+         finalType = 'video'
+      } else if (finalType === 'Twitter') {
+         finalType = 'article'
+      }
 
       if (finalUrl.includes('youtu.be')) {
          finalUrl = parseUrl(finalUrl)
       }
 
       const addContent = await Content.create({
-         type: type,
+         type: finalType,
          link: finalUrl,
          title: title,
          tags: handleTag,

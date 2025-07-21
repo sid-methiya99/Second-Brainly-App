@@ -48,9 +48,6 @@ userRouter.post('/signin', async (req, res) => {
    const username = req.body.username
    const password = req.body.password
 
-   console.log(username)
-   console.log(password)
-
    const validateInput = SignInValidation.safeParse({
       username,
       password,
@@ -73,7 +70,6 @@ userRouter.post('/signin', async (req, res) => {
 
    try {
       const checkPassword = await checkUserExists.isValidPassword(password)
-      console.log(username)
       if (!checkPassword) {
          return res.status(ResponseCode.UnAuthorised).json({
             msg: 'Incorrect password',
