@@ -8,12 +8,14 @@ import { SignInValidation, SignUpValidation } from '../utils/zodTypes'
 export const userRouter = express.Router()
 
 userRouter.post('/signup', async (req, res) => {
+   const fullName = req.body.fullName
    const username = req.body.username
    const password = req.body.password
 
    const validateInput = SignUpValidation.safeParse({
       username,
       password,
+      fullName,
    })
 
    if (!validateInput.success) {
@@ -35,6 +37,7 @@ userRouter.post('/signup', async (req, res) => {
       const addUser = await Users.create({
          username,
          password,
+         fullName,
       })
 
       res.status(200).json({

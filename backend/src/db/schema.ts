@@ -2,12 +2,17 @@ import mongoose, { Document } from 'mongoose'
 import bcrypt from 'bcrypt'
 
 interface IUser extends Document {
+   fullName: string
    username: string
    password: string
    isValidPassword(password: string): Promise<boolean>
 }
 
 const UserSchema = new mongoose.Schema<IUser>({
+   fullName: {
+      type: String,
+      require: true,
+   },
    username: {
       type: String,
       require: true,

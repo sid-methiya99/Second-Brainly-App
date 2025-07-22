@@ -76,7 +76,6 @@ contentRouter.delete('/', UserMiddleWare, async (req, res) => {
    const contentId = req.body.contentId
    const userId = req.userId
 
-   console.log(contentId)
    try {
       const deleteContent = await Content.findByIdAndDelete({
          _id: contentId,

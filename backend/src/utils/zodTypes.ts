@@ -1,6 +1,7 @@
 import z from 'zod'
 
 export const SignUpValidation = z.object({
+   fullName: z.string(),
    username: z.email(),
    password: z.string().min(8).max(20),
 })

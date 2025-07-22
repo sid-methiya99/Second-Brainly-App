@@ -8,6 +8,7 @@ export const brainRouter = express.Router()
 
 brainRouter.post('/share', UserMiddleWare, async (req, res) => {
    const share = req.body.share
+   console.log(share)
    const id = nanoid(16)
 
    if (share) {
@@ -66,12 +67,12 @@ brainRouter.get('/:shareLink', async (req, res) => {
       const [returnContent, userData] = await Promise.all([
          Content.find({
             userId: findHash?.userId,
-         }),
+         }).populate('tags', 'title'),
          Users.findOne({
             _id: findHash?.userId,
          }),
       ])
-      const userName = userData?.username
+      const userName = userData?.fullName
       res.status(ResponseCode.Success).json({
          username: userName,
          content: returnContent,
