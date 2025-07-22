@@ -21,7 +21,7 @@ export const handleBrainLink = async (share: boolean) => {
    } catch (error) {
       console.error(error)
    }
-   const createShareUrl = `${FRONTEND_URL}api/v1/brain/share/${uniqueId}`
+   const createShareUrl = `${FRONTEND_URL}share/${uniqueId}`
 
    if (createShareUrl) {
       await navigator.clipboard.writeText(createShareUrl)

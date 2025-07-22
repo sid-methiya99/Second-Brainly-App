@@ -1,27 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import type { CardProps } from './Card'
 import { FileIcon } from './icons/FileIcon'
 import { ShareIcon } from './icons/ShareIcon'
-import { Trash } from './icons/Trash'
-import axios from 'axios'
-import { BACKEND_URL } from '../config'
-import { token } from './hooks/handleFormSubmission'
-export interface TagType {
-   _id: string
-   title: string
-}
 
-export interface CardProps {
-   _id: string
-   type: string
-   link: string
-   title: string
-   tags: TagType[]
-   date?: string
-   onDelete?: (id: string) => void
-}
-
-export const Card = ({
-   onDelete,
+export const ShareCard = ({
    _id,
    type,
    link,
@@ -29,17 +10,6 @@ export const Card = ({
    tags,
    date,
 }: CardProps) => {
-   const handleDelete = async () => {
-      const res = await axios.delete(`${BACKEND_URL}api/v1/content/`, {
-         data: {
-            contentId: _id,
-         },
-         headers: {
-            Authorization: `Bearer ${token}`,
-         },
-      })
-      onDelete?.(_id)
-   }
    return (
       <div
          key={_id}
@@ -56,9 +26,6 @@ export const Card = ({
                   <a href={link} target="_blank">
                      <ShareIcon size="size-5" color="#374151" />
                   </a>
-                  <div className="cursor-pointer" onClick={handleDelete}>
-                     <Trash size="size-5" color="#374151" />
-                  </div>
                </div>
             </div>
 

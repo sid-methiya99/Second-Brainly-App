@@ -7,8 +7,8 @@ import { useHandleSubmit } from './hooks/handleFormSubmission'
 
 export interface ModalTypes {
    open: boolean
-   onClose?: () => void | undefined
-   onClick?: () => void | undefined
+   onClose?: () => void
+   onClick?: () => void
 }
 export const CreateContentModal = ({ open, onClose }: ModalTypes) => {
    const [selectedTag, setSelectedTag] = useState<typeof tags>([])

@@ -8,7 +8,6 @@ import { useContent } from './hooks/useContent'
 import { useNavigate } from 'react-router-dom'
 import { CreateBrainModal } from './CreateBrainModal'
 import { handleBrainLink } from './hooks/handleBrainLink'
-import { handleShare } from './hooks/handleShare'
 import { toast, Toaster } from 'sonner'
 
 export const MainContent = () => {
@@ -32,6 +31,7 @@ export const MainContent = () => {
          duration: 3000,
       })
    }
+
    useEffect(() => {
       res()
    }, [formModalOpen])
@@ -50,7 +50,9 @@ export const MainContent = () => {
             onClose={() => {
                setShareModalOpen(false)
             }}
-            onClick={handleShareBtn}
+            onClick={() => {
+               handleShareBtn?.()
+            }}
          />
          <div className=" w-full h-fit">
             <div className="mt-8 mx-10 ">
