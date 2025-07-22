@@ -2,7 +2,7 @@ import type { ModalTypes } from './CreateContentModal'
 import { CrossIcon } from './icons/CrossIcon'
 import { TwoSquare } from './icons/TwoSquare'
 
-export const CreateBrainModal = ({ open, onClose }: ModalTypes) => {
+export const CreateBrainModal = ({ open, onClose, onClick }: ModalTypes) => {
    return (
       <div>
          {open && (
@@ -25,6 +25,9 @@ export const CreateBrainModal = ({ open, onClose }: ModalTypes) => {
                      </div>
                      <div className="flex justify-center mt-4 w-full px-6">
                         <button
+                           onClick={() => {
+                              ;(onClick?.(), onClose?.())
+                           }}
                            className="bg-purple-600 text-white font-normal text-lg px-4 py-3 rounded-xl 
                         text-center rounded-xl-sm gap-2 flex items-center justify-center cursor-pointer w-full"
                         >

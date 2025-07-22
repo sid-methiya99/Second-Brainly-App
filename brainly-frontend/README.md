@@ -1,1 +1,2 @@
-- [] Make tweet instead of article in Card.tsx after changing backend
+- [x] Make tweet instead of article in Card.tsx after changing backend
+- [] Remaining share functionality

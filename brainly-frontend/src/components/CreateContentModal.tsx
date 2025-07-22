@@ -7,7 +7,8 @@ import { useHandleSubmit } from './hooks/handleFormSubmission'
 
 export interface ModalTypes {
    open: boolean
-   onClose?: () => void
+   onClose?: () => void | undefined
+   onClick?: () => void | undefined
 }
 export const CreateContentModal = ({ open, onClose }: ModalTypes) => {
    const [selectedTag, setSelectedTag] = useState<typeof tags>([])
@@ -118,8 +119,8 @@ export const CreateContentModal = ({ open, onClose }: ModalTypes) => {
                               <Button
                                  variant="primary"
                                  text="Submit"
-                                 onClick={(e) => {
-                                    submitForm(e)
+                                 onClick={() => {
+                                    submitForm()
                                  }}
                               />
                            </div>

@@ -7,6 +7,9 @@ import { Card, type CardProps } from './Card'
 import { useContent } from './hooks/useContent'
 import { useNavigate } from 'react-router-dom'
 import { CreateBrainModal } from './CreateBrainModal'
+import { handleBrainLink } from './hooks/handleBrainLink'
+import { handleShare } from './hooks/handleShare'
+import { toast, Toaster } from 'sonner'
 
 export const MainContent = () => {
    const [formModalOpen, setFormModelOpen] = useState(false)
@@ -19,12 +22,23 @@ export const MainContent = () => {
       localStorage.clear()
    }
 
+   const handleShareBtn = async () => {
+      const res = await handleBrainLink(true)
+      toast.success('Link copied to your clipboard', {
+         style: {
+            fontSize: '20px',
+            color: 'green',
+         },
+         duration: 3000,
+      })
+   }
    useEffect(() => {
       res()
    }, [formModalOpen])
 
    return (
       <div className="bg-[#F9FBFC]">
+         <Toaster position="top-right" />
          <CreateContentModal
             open={formModalOpen}
             onClose={() => {
@@ -36,6 +50,7 @@ export const MainContent = () => {
             onClose={() => {
                setShareModalOpen(false)
             }}
+            onClick={handleShareBtn}
          />
          <div className=" w-full h-fit">
             <div className="mt-8 mx-10 ">
