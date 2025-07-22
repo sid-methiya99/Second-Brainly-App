@@ -75,7 +75,7 @@ export const Card = ({
                   ></iframe>
                )}
                {type === 'Twitter' && (
-                  <div className="w-full h-72 overflow-hidden rounded-md">
+                  <div className="w-full h-72 overflow-auto rounded-md no-scrollbar">
                      <blockquote className="twitter-tweet w-full">
                         <a href={link}></a>
                      </blockquote>

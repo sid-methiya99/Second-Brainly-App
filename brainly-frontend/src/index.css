@@ -9,3 +9,7 @@
    --color-gray-600: #95989c;
    --default-font-family: var(--font-Inter);
 }
+
+@utility no-scrollbar {
+   @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}

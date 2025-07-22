@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 export const SignUp = () => {
    const usernameRef = useRef<HTMLInputElement>()
    const passwordRef = useRef<HTMLInputElement>()
+   const fullNameRef = useRef<HTMLInputElement>()
    const navigate = useNavigate()
 
    const signUp = async (e: any) => {
@@ -15,16 +16,14 @@ export const SignUp = () => {
       try {
          const username = usernameRef.current?.value
          const password = passwordRef.current?.value
-
-         console.log(username)
-         console.log(password)
+         const fullName = fullNameRef.current?.value
 
          const res = await axios.post(`${BACKEND_URL}api/v1/user/signup`, {
             username,
             password,
+            fullName,
          })
 
-         console.log(res)
          navigate('/signin')
       } catch (error) {
          console.error(error)
@@ -45,6 +44,14 @@ export const SignUp = () => {
             <form className="flex items-center justify-center mt-5 bg-white shadow-md max-w-96 px-10 py-10 rounded">
                <div className="flex flex-col gap-2 items-center">
                   <div className="flex flex-col">
+                     <label className="text-base text-blue-600 font-semibold mb-2">
+                        FullName:
+                     </label>
+                     <Input
+                        type="text"
+                        placeholder="Username"
+                        reference={fullNameRef}
+                     />
                      <label className="text-base text-blue-600 font-semibold mb-2">
                         Username:
                      </label>
