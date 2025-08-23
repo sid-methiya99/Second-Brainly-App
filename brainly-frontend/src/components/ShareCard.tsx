@@ -1,12 +1,13 @@
 import type { CardProps } from './Card'
 import { FileIcon } from './icons/FileIcon'
 import { ShareIcon } from './icons/ShareIcon'
+ 
 
 export const ShareCard = ({
    _id,
+   title,
    type,
    link,
-   title,
    tags,
    date,
 }: CardProps) => {

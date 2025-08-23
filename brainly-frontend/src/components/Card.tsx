@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from 'react'
 import { FileIcon } from './icons/FileIcon'
 import { ShareIcon } from './icons/ShareIcon'
 import { Trash } from './icons/Trash'

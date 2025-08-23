@@ -1,6 +1,6 @@
 import express from 'express'
-import { Content, Links, Users } from '../db/schema'
 import { nanoid } from 'nanoid'
+import { Content, Links, Users } from '../db/schema'
 import { UserMiddleWare } from '../utils/middleware'
 import { ResponseCode } from '../utils/utils'
 
@@ -26,7 +26,7 @@ brainRouter.post('/share', UserMiddleWare, async (req, res) => {
 
       try {
          const createLink = await Links.create({
-            hash: id,
+            hash: 3,
             userId: req.userId,
          })
       } catch (error) {

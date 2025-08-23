@@ -1,8 +1,8 @@
-import express from 'express'
 import cors from 'cors'
-import { mainRouter } from './routes'
-import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import express from 'express'
+import mongoose from 'mongoose'
+import { mainRouter } from './routes'
 import { MONGO_URL, PORT } from './utils/config'
 
 dotenv.config()

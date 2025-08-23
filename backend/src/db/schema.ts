@@ -95,7 +95,6 @@ const LinkSchema = new mongoose.Schema({
       unique: true,
    },
 })
-
 export const Users = mongoose.model('Users', UserSchema)
 export const Content = mongoose.model('Content', ContentSchema)
 export const Tags = mongoose.model('Tags', TagsSchema)
