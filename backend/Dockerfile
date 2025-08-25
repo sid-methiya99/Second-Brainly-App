@@ -16,9 +16,8 @@ COPY package.json bun.lockb* ./
 RUN bun install
 
 # Copy source code
-RUN bun run build
 
 EXPOSE 3000
 
 # Run built application
-CMD ["bun", "start"]
+CMD ["sh", "-c", "bun run build && bun run src/server.ts"]
