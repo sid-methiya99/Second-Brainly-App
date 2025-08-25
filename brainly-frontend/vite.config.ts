@@ -8,6 +8,7 @@ export default defineConfig({
    server: {
       host: '0.0.0.0', // Allows external connections (needed for Docker)
       port: 5173,
+      strictPort: true,
       watch: {
          usePolling: true, // Enables hot reload in Docker containers
       },
