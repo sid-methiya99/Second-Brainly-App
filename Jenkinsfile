@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 // Pull latest code from GitHub
-                git branch: 'main', url: 'https://github.com/YourUsername/second-brainly-app.git'
+                git branch: 'main', url: 'https://github.com/sid-methiya99/Second-Brainly-App'
             }
         }
 
