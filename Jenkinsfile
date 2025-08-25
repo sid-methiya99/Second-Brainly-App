@@ -102,7 +102,7 @@ pipeline {
                         dir('brainly-frontend') {
                             sh '''
                                 echo "🔨 Building frontend application..."
-                                npm run build
+                                npm run dev
                                 echo "✅ Frontend build completed"
                                 '''
                         }
