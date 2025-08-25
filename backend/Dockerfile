@@ -16,10 +16,9 @@ COPY package.json bun.lockb* ./
 RUN bun install
 
 # Copy source code
-COPY . .
+RUN bun run build
 
-# Expose backend port
 EXPOSE 3000
 
-# Run backend in dev mode
-CMD ["bun", "run", "start"]
+# Run built application
+CMD ["bun", "start"]
