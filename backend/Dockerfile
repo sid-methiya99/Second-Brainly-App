@@ -20,4 +20,4 @@ RUN bun install
 EXPOSE 3000
 
 # Run built application
-CMD ["sh", "-c", "bun run build && bun run src/server.ts"]
+CMD ["bun", "start"]
