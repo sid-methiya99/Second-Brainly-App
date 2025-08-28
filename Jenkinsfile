@@ -3,9 +3,17 @@ pipeline {
     agent any
 
     triggers {
-        // Poll SCM will detect changes in your Git repository.
-        // If you were using webhooks for Docker image changes (as discussed previously),
-        // this is where you'd add the genericWebhook trigger.
+        // Webhook trigger for instant deployment on git push
+        genericTrigger(
+            genericVariables: [
+                [key: 'ref', value: '$.ref'],
+                [key: 'repository', value: '$.repository.name'],
+                [key: 'pusher', value: '$.pusher.name']
+            ],
+            causeString: 'Triggered by $ref',
+            token: 'second-brainly-webhook-token'
+        ),
+        // Fallback: Poll SCM every 5 minutes if webhook fails
         pollSCM('H/5 * * * *')
     }
 
