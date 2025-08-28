@@ -11,3 +11,4 @@ To test polling:
 4. Check if Jenkins starts building automatically
 
 If polling works, Jenkins should detect this change within 1 minute and start a new build.
+Testing polling at Fri Aug 29 12:04:28 AM IST 2025
