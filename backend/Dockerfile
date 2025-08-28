@@ -9,13 +9,18 @@ ENV PATH="/root/.bun/bin:$PATH"
 
 WORKDIR /app
 
-# Copy package.json and lockfile
-COPY package.json bun.lockb* ./
+# Copy package.json and lockfile (ensures dependencies are installed based on these)
+# This order is important for Docker caching.
+COPY package.json bun.lockb* ./ # <--- Make sure bun.lockb is always copied if it exists!
+# If you also have package-lock.json and bun.lock files, make sure to copy them too if bun is meant to use them
+# COPY package.json package-lock.json bun.lock* ./
 
 # Install deps with Bun
 RUN bun install
 
-# Copy source code
+# Copy source code (now that dependencies are installed)
+# This must be after 'bun install' to leverage caching if only code changes.
+COPY . .
 
 EXPOSE 3000
 
