@@ -19,7 +19,29 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 script {
-                    checkout scm
+                    echo "=== SCM Checkout Debug ==="
+                    echo "Current time: ${new Date()}"
+                    echo "Workspace: ${WORKSPACE}"
+                    
+                    // Checkout with more verbose output
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: '*/main']],
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions: [
+                            [$class: 'CleanBeforeCheckout'],
+                            [$class: 'CloneOption', depth: 1, noTags: false, reference: '', shallow: true]
+                        ],
+                        submoduleCfg: [],
+                        userRemoteConfigs: [[
+                            url: 'https://github.com/sid-methiya99/Second-Brainly-App.git',
+                            credentialsId: ''
+                        ]]
+                    ])
+                    
+                    echo "=== Git Status ==="
+                    sh 'git log --oneline -3'
+                    sh 'git status'
                 }
             }
         }
