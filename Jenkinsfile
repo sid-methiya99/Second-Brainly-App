@@ -14,7 +14,7 @@ pipeline {
             token: 'second-brainly-webhook-token'
         ),
         // Fallback: Poll SCM every 5 minutes if webhook fails
-        pollSCM('H/5 * * * *')
+        pollSCM('H/1 * * * *')
     }
 
     environment {
