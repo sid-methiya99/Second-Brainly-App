@@ -4,14 +4,28 @@ FROM jenkins/jenkins:lts
 # Install Docker CLI (Compose V2 is built-in for recent versions)
 USER root
 RUN apt-get update && apt-get install -y lsb-release
+
+# Add Docker's GPG key and repository
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-RUN apt-get update && apt-get install -y docker-ce-cli
-# Or for Alpine based (if you pick an Alpine base for Jenkins)
-# RUN apk add --no-cache docker-cli
 
-# Add the 'jenkins' user to the 'docker' group
-# The 'docker' group must exist (it should if docker-cli is installed)
+# Install Docker CLI
+RUN apt-get update && apt-get install -y docker-ce-cli
+
+# IMPORTANT FIX: Explicitly create the 'docker' group if it doesn't exist
+# We'll try to use the GID from the host for consistency
+# This command will attempt to create the 'docker' group with a specific GID
+# If your host's Docker GID is, say, 999, you'd put 999 here.
+# Let's try to get it dynamically or use a common default like 999
+ARG DOCKER_GID=999 # Default GID, you should ideally get this from your host at build time
+
+# Create the 'docker' group with the specified GID if it doesn't exist.
+# The `|| true` makes sure the build doesn't fail if the group already exists.
+# `groupadd -g $DOCKER_GID docker || true` is for a specific GID.
+# A simpler way to ensure the group exists for usermod is:
+RUN groupadd docker || true
+
+# Now, add the 'jenkins' user to the 'docker' group
 RUN usermod -aG docker jenkins
 
 USER jenkins
