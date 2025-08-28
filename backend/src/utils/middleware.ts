@@ -1,8 +1,8 @@
-import type { NextFunction, Request, Response } from 'express'
-import { ResponseCode } from './utils'
+import type { Request, Response, NextFunction } from 'express'
+import { ResponseCode } from './utils.js'
 import jsonwebtoken from 'jsonwebtoken'
-import { JWT_SECRET } from './config'
-import { Users } from '../db/schema'
+import { JWT_SECRET } from './config.js'
+import { Users } from '../db/schema.js'
 
 declare global {
    namespace Express {

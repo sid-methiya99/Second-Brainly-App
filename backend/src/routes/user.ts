@@ -1,9 +1,9 @@
 import express from 'express'
 import jsonwebtoken from 'jsonwebtoken'
-import { Users } from '../db/schema'
-import { ResponseCode } from '../utils/utils'
-import { JWT_SECRET } from '../utils/config'
-import { SignInValidation, SignUpValidation } from '../utils/zodTypes'
+import { Users } from '../db/schema.js'
+import { ResponseCode } from '../utils/utils.js'
+import { JWT_SECRET } from '../utils/config.js'
+import { SignInValidation, SignUpValidation } from '../utils/zodTypes.js'
 
 export const userRouter = express.Router()
 

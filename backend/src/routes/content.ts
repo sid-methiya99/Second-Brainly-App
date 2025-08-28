@@ -1,11 +1,11 @@
 import express from 'express'
-import { Content, Tags } from '../db/schema'
-import { UserMiddleWare } from '../utils/middleware'
-import { ResponseCode } from '../utils/utils'
-import { handleTagId } from '../utils/handleTags'
-import { ContentValidation } from '../utils/zodTypes'
-import { formattedDate } from '../utils/handleDate'
-import { parseUrl } from '../utils/parseUrl'
+import { Content, Tags } from '../db/schema.js'
+import { UserMiddleWare } from '../utils/middleware.js'
+import { ResponseCode } from '../utils/utils.js'
+import { handleTagId } from '../utils/handleTags.js'
+import { ContentValidation } from '../utils/zodTypes.js'
+import { formattedDate } from '../utils/handleDate.js'
+import { parseUrl } from '../utils/parseUrl.js'
 
 export const contentRouter = express.Router()
 

@@ -1,7 +1,7 @@
 import express from 'express'
-import { userRouter } from './user'
-import { contentRouter } from './content'
-import { brainRouter } from './brain'
+import { userRouter } from './user.js'
+import { contentRouter } from './content.js'
+import { brainRouter } from './brain.js'
 export const mainRouter = express.Router()
 
 mainRouter.use('/user', userRouter)

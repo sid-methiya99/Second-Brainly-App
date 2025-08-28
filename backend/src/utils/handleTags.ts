@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { Tags } from '../db/schema'
+import { Tags } from '../db/schema.js'
 
 // This function takes tags as input and returns a Promise which expects array of ObjectId when resolved
 export const handleTagId = async (

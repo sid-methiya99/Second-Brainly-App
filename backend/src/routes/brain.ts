@@ -1,8 +1,8 @@
 import express from 'express'
 import { nanoid } from 'nanoid'
-import { Content, Links, Users } from '../db/schema'
-import { UserMiddleWare } from '../utils/middleware'
-import { ResponseCode } from '../utils/utils'
+import { Content, Links, Users } from '../db/schema.js'
+import { UserMiddleWare } from '../utils/middleware.js'
+import { ResponseCode } from '../utils/utils.js'
 
 export const brainRouter = express.Router()
 
