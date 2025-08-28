@@ -1,279 +1,312 @@
-# Second-Brainly-App 🧠
+# Second Brainly App
 
-A full-stack knowledge management and content sharing platform built with React, TypeScript, Node.js, and MongoDB. This application allows users to organize, tag, and share various types of content including Twitter posts, YouTube videos.
+A full-stack application for managing and sharing your digital content with a beautiful React frontend and Node.js backend.
 
-## 🎯 Project Overview
+## 🚀 Quick Start
 
-Second-Brainly-App is a personal knowledge management system that helps users:
-- **Organize Content**: Save and categorize different types of content (images, tweets, videos, documents)
-- **Tag Management**: Create and manage tags for easy content discovery
-- **Content Sharing**: Generate shareable links for your organized content
-- **User Authentication**: Secure user registration and login system
-- **Content Filtering**: Filter content by tags and types
+### Prerequisites
+- Docker and Docker Compose
+- Node.js 20+ (for local development)
+- Git
+
+### Step 1: Setup Jenkins (CI/CD Pipeline)
+
+First, set up Jenkins with Docker-in-Docker capabilities:
+
+```bash
+# Set Docker group ID (run this first)
+export HOST_DOCKER_GID=$(getent group docker | cut -d: -f3)
+
+# Create Jenkins network
+docker network create jenkins-network
+
+# Run Jenkins container
+docker run -d -p 8080:8080 -p 50000:50000 \
+  --name jenkins-controller \
+  --restart=on-failure \
+  -v jenkins_home_data:/var/jenkins_home \
+  -v /var/run/docker.sock:/var/run/docker.sock:rw \
+  --group-add "$HOST_DOCKER_GID" \
+  --network jenkins-network \
+  my-jenkins-with-docker-cli
+```
+
+**Access Jenkins**: http://localhost:8080
+
+### Step 2: Clone and Run the Application
+
+#### Option 1: Docker Compose (Recommended)
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/sid-methiya99/Second-Brainly-App.git
+   cd Second-Brainly-App
+   ```
+
+2. **Start all services**
+   ```bash
+   docker compose up --build -d
+   ```
+
+3. **Access the application**
+   - Frontend: http://localhost:5173
+   - Backend API: http://localhost:3000
+   - MongoDB Express: http://localhost:8081
+
+#### Option 2: Local Development
+
+#### Backend Setup
+```bash
+cd backend
+npm install
+npm run build
+npm start
+```
+
+#### Frontend Setup
+```bash
+cd brainly-frontend
+npm install
+npm run dev
+```
 
 ## 🏗️ Project Structure
 
 ```
 Second-Brainly-App/
-├── backend/                    # Node.js/TypeScript Backend API
+├── backend/                 # Node.js + Express + MongoDB backend
 │   ├── src/
-│   │   ├── db/
-│   │   │   └── schema.ts      # MongoDB schemas (Users, Content, Tags)
-│   │   ├── routes/
-│   │   │   ├── index.ts       # Main router configuration
-│   │   │   ├── user.ts        # User authentication routes
-│   │   │   ├── content.ts     # Content management routes
-│   │   │   └── brain.ts       # Brain/organization routes
-│   │   ├── utils/
-│   │   │   ├── config.ts      # Environment configuration
-│   │   │   ├── middleware.ts  # Authentication middleware
-│   │   │   └── ...           # Utility functions
-│   │   └── server.ts         # Express server setup
-│   ├── package.json          # Backend dependencies
-│   └── tsconfig.json         # TypeScript configuration
-├── brainly-frontend/          # React/TypeScript Frontend
+│   │   ├── routes/         # API routes
+│   │   ├── db/            # Database schemas
+│   │   └── utils/         # Utility functions
+│   ├── Dockerfile
+│   └── package.json
+├── brainly-frontend/        # React + Vite frontend
 │   ├── src/
-│   │   ├── components/        # Reusable UI components
-│   │   │   ├── MainContent.tsx    # Main content display
-│   │   │   ├── Navbar.tsx         # Navigation component
-│   │   │   ├── CreateBrainModal.tsx # Content creation modal
-│   │   │   └── ...               # Other components
-│   │   ├── pages/            # Page components
-│   │   │   ├── Home.tsx      # Main dashboard
-│   │   │   ├── SignIn.tsx    # Login page
-│   │   │   ├── SignUp.tsx    # Registration page
-│   │   │   └── Share.tsx     # Shared content view
-│   │   ├── hooks/            # Custom React hooks
-│   │   └── App.tsx           # Main application component
-│   ├── package.json          # Frontend dependencies
-│   └── vite.config.ts        # Vite build configuration
-├── Jenkinsfile               # Jenkins CI/CD pipeline
-├── Dockerfile               # Multi-stage Docker build
-├── .dockerignore            # Docker build exclusions
-└── README.md               # This file
+│   │   ├── components/    # React components
+│   │   ├── pages/        # Page components
+│   │   └── hooks/        # Custom hooks
+│   ├── Dockerfile
+│   └── package.json
+├── docker-compose.yml      # Multi-container setup
+└── Jenkinsfile            # CI/CD pipeline
 ```
 
-## 🚀 Features
+## 🔧 Configuration
 
-### Backend Features
-- **RESTful API** with Express.js
-- **MongoDB Integration** with Mongoose ODM
-- **User Authentication** with JWT tokens
-- **Password Hashing** with bcrypt
-- **CORS Support** for cross-origin requests
-- **TypeScript** for type safety
+### Environment Variables
 
-### Frontend Features
-- **React 19** with TypeScript
-- **Vite** for fast development and building
-- **Tailwind CSS** for styling
-- **React Router** for navigation
-- **Responsive Design** for mobile and desktop
-- **Content Filtering** and search capabilities
-
-### Content Types Supported
-- 🐦 **Twitter Posts** - Tweet sharing and embedding
-- 📺 **YouTube Videos** - Video links and embedding
-
-## 🛠️ Prerequisites
-
-Before running this project, ensure you have the following installed:
-
-- **Node.js** (v20 or higher)
-- **Bun** (for backend runtime)
-- **MongoDB** (local or cloud instance)
-- **Git**
-
-## 📦 Installation & Setup
-
-### 1. Clone the Repository
-
-```bash
-git clone <repository-url>
-cd Second-Brainly-App
-```
-
-## 🚀 Quick Start Options
-
-### Option A: Using Docker (Recommended)
-
-The easiest way to get started is using Docker Compose:
-
-```bash
-# Start all services with Docker Compose
-docker-compose up -d
-
-# Access the application
-# Frontend: http://localhost:5173
-# Backend API: http://localhost:3000
-# MongoDB: localhost:27017
-```
-
-### Option B: Manual Setup (Without Docker)
-
-#### 2. Backend Setup
-
-```bash
-cd backend
-
-# Install dependencies using Bun
-bun install
-
-# Create environment file
-cp .env.example .env
-# Edit .env with your MongoDB connection string and other configs
-
-# Start development server
-bun run start
-```
-
-#### 3. Frontend Setup
-
-```bash
-cd brainly-frontend
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-```
-
-#### 4. Environment Configuration
-
-Create a `.env` file in the `backend` directory:
-
+#### Backend (.env)
 ```env
-MONGO_URL=mongodb://localhost:27017/second-brainly
 PORT=3000
-JWT_SECRET=your-secret-key-here
+MONGO_URL=mongodb://admin:password123@mongo:27017/second-brainly?authSource=admin
+JWT_SECRET=your-secret-key
+CORS_ORIGIN=http://localhost:5173
 ```
 
-## 🐳 Docker Setup
+#### Frontend (Vite)
+```env
+VITE_API_URL=http://localhost:3000/api/v1
+```
 
-### Option 1: Using Docker Compose (Recommended)
+## 🐳 Docker Services
 
-The project includes a `docker-compose.yml` file that sets up the complete application stack:
+### Services Overview
+- **Frontend**: React app served on port 5173
+- **Backend**: Node.js API on port 3000
+- **MongoDB**: Database on port 27017
+- **Mongo Express**: Database UI on port 8081
+
+### Docker Commands
 
 ```bash
 # Start all services
-docker-compose up -d
+docker compose up -d
 
 # View logs
-docker-compose logs -f
+docker compose logs -f
 
-# Stop services
-docker-compose down
+# Stop all services
+docker compose down
+
+# Rebuild and start
+docker compose up --build -d
+
+# View running containers
+docker ps
 ```
 
-The Docker Compose setup includes:
-- **MongoDB** database with authentication
-- **Backend API** service
-- **MongoDB Express** (optional, for database management)
+## 🔄 CI/CD with Jenkins
 
-### Option 2: Manual Docker Build
+### Jenkins Setup
+The project uses Jenkins for continuous integration and deployment. Jenkins is configured with Docker-in-Docker capabilities to build and run containers.
 
+### Automatic Deployment
+This project includes a Jenkins pipeline for automatic deployment:
+
+1. **Polling**: Checks for changes every minute
+2. **Auto-build**: Rebuilds containers when changes detected
+3. **Hot reloading**: Updates are live within 1-2 minutes
+
+### Jenkins Pipeline Features
+- ✅ Automatic code checkout
+- ✅ Docker container management
+- ✅ Health checks
+- ✅ Persistent containers (no downtime)
+- ✅ Automatic rebuilds on git push
+
+### Manual Trigger
+If you need to manually trigger a build:
+1. Go to Jenkins dashboard (http://localhost:8080)
+2. Select your project
+3. Click "Build Now"
+
+### Jenkins Management
 ```bash
-# Build the Docker image
-docker build -t second-brainly-app .
+# View Jenkins logs
+docker logs jenkins-controller
 
-# Run the container
-docker run -p 3000:3000 \
-  -e MONGO_URL=mongodb://your-mongo-host:27017/second-brainly \
-  -e JWT_SECRET=your-secret-key \
-  second-brainly-app
+# Restart Jenkins
+docker restart jenkins-controller
+
+# Stop Jenkins
+docker stop jenkins-controller
+
+# Start Jenkins
+docker start jenkins-controller
 ```
 
-### Docker Profiles
+## 🛠️ Development Workflow
 
-The docker-compose.yml supports different profiles:
+### Making Changes
+1. **Edit your code** (frontend/backend)
+2. **Commit changes**: `git add . && git commit -m "Your message"`
+3. **Push to Git**: `git push`
+4. **Jenkins automatically** rebuilds and deploys
+5. **Access updated app** at http://localhost:5173
 
+### Testing Changes
 ```bash
-# Development mode (includes MongoDB Express)
-docker-compose --profile dev up -d
+# Test backend API
+curl http://localhost:3000/api/v1/user/signin
 
-# Production mode (includes Nginx)
-docker-compose --profile prod up -d
-
-# Basic mode (backend + MongoDB only)
-docker-compose up -d
+# Test frontend
+curl http://localhost:5173
 ```
 
-## 🔄 Jenkins CI/CD Setup
+## 📊 Monitoring
 
-### Prerequisites for Jenkins
+### Container Status
+```bash
+# Check all containers
+docker ps
 
-1. **Jenkins Server** with the following plugins:
-   - Pipeline
-   - Git
-   - Docker
-   - NodeJS Plugin
-
-2. **Node.js Installation** on Jenkins server (v20+)
-
-3. **Docker** installed on Jenkins server
-
-
-### Running the Pipeline
-
-1. **Create a new Jenkins Pipeline job**
-2. **Configure Git repository** with your project URL
-3. **Set up credentials** for deployment targets
-4. **Configure environment variables** as needed
-5. **Trigger the pipeline** by pushing to `develop` or `main` branches
-
-### Pipeline Stages
-
-```
-Checkout → Setup Environment → Install Dependencies → 
-Lint & Type Check → Build → Test → Security Scan → 
-Docker Build → Deploy (Staging/Production)
+# View specific container logs
+docker logs second-brainly-frontend
+docker logs second-brainly-backend
+docker logs second-brainly-mongo
 ```
 
+### Health Checks
+- Backend: http://localhost:3000/api/v1/user/signin
+- Frontend: http://localhost:5173
+- MongoDB: http://localhost:8081
 
-## 📝 API Endpoints
+## 🚨 Troubleshooting
+
+### Common Issues
+
+#### Frontend not loading
+```bash
+# Check frontend container
+docker logs second-brainly-frontend
+
+# Restart frontend
+docker compose restart frontend
+```
+
+#### Backend API errors
+```bash
+# Check backend container
+docker logs second-brainly-backend
+
+# Check MongoDB connection
+docker logs second-brainly-mongo
+```
+
+#### Jenkins not detecting changes
+1. Check Jenkins job configuration
+2. Verify polling is enabled
+3. Check Jenkins logs for errors
+4. Consider using webhook instead of polling
+
+#### Jenkins setup issues
+```bash
+# Check if Jenkins container is running
+docker ps | grep jenkins
+
+# Check Jenkins logs
+docker logs jenkins-controller
+
+# Verify Docker socket access
+docker exec jenkins-controller docker ps
+```
+
+### Reset Everything
+```bash
+# Stop and remove all containers
+docker compose down -v
+
+# Remove all images
+docker system prune -a
+
+# Start fresh
+docker compose up --build -d
+```
+
+## 🔐 Security Notes
+
+- Change default passwords in production
+- Use HTTPS in production
+- Configure proper CORS settings
+- Set secure JWT secrets
+
+## 📝 API Documentation
 
 ### Authentication
 - `POST /api/v1/user/signup` - User registration
 - `POST /api/v1/user/signin` - User login
 
 ### Content Management
-- `GET /api/v1/content` - Get user's content
-- `POST /api/v1/content` - Create new content
-- `PUT /api/v1/content/:id` - Update content
-- `DELETE /api/v1/content/:id` - Delete content
+- `POST /api/v1/content` - Add content
+- `GET /api/v1/content` - Get user content
+- `DELETE /api/v1/content` - Delete content
 
-### Brain/Tags
-- `GET /api/v1/brain/tags` - Get all tags
-- `POST /api/v1/brain/tags` - Create new tag
+### Sharing
+- `POST /api/v1/brain/share` - Enable/disable sharing
+- `GET /api/v1/brain/:shareLink` - Access shared content
 
-## 🔧 Development
+## 🤝 Contributing
 
-### Backend Development
-```bash
-cd backend
-bun run start  # Starts with hot reload
-```
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-### Frontend Development
-```bash
-cd brainly-frontend
-npm run dev    # Starts Vite dev server
-```
+## 📄 License
 
-### Building for Production
-```bash
-# Backend
-cd backend
-bun run build
+This project is licensed under the MIT License.
 
-# Frontend
-cd brainly-frontend
-npm run build
-```
+## 🆘 Support
 
-### Automated Deployment (Jenkins)
-1. Push to `develop` branch for staging deployment
-2. Push to `main` branch for production deployment
-3. Jenkins pipeline handles the rest automatically
+If you encounter any issues:
+1. Check the troubleshooting section
+2. Review container logs
+3. Verify environment configuration
+4. Create an issue on GitHub
+
+---
+
+**Happy coding! 🎉**
 
