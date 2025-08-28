@@ -4,15 +4,7 @@ pipeline {
 
     triggers {
         // Webhook trigger for instant deployment on git push
-        genericTrigger(
-            genericVariables: [
-                [key: 'ref', value: '$.ref'],
-                [key: 'repository', value: '$.repository.name'],
-                [key: 'pusher', value: '$.pusher.name']
-            ],
-            causeString: 'Triggered by $ref',
-            token: 'second-brainly-webhook-token'
-        )
+        
         // Fallback: Poll SCM every 5 minutes if webhook fails
         pollSCM('H/1 * * * *')
     }
