@@ -3,8 +3,8 @@ pipeline {
     agent any
 
     triggers {
-        
-        // Fallback: Poll SCM every 5 minutes if webhook fails
+        // Poll SCM every 1 minute to detect changes
+
         pollSCM('H/1 * * * *')
     }
 
