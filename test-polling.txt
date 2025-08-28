@@ -1,0 +1,13 @@
+# Test file for Jenkins polling
+# Modify this file and push to test if polling works
+
+Last modified: 2024-08-28
+Status: Testing polling functionality
+
+To test polling:
+1. Modify this file
+2. Commit and push: git add . && git commit -m "Test polling" && git push
+3. Wait up to 1 minute for Jenkins to detect the change
+4. Check if Jenkins starts building automatically
+
+If polling works, Jenkins should detect this change within 1 minute and start a new build.
