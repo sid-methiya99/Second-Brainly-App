@@ -3,7 +3,6 @@ pipeline {
     agent any
 
     triggers {
-        // Webhook trigger for instant deployment on git push
         
         // Fallback: Poll SCM every 5 minutes if webhook fails
         pollSCM('H/1 * * * *')
@@ -29,9 +28,9 @@ pipeline {
         stage('Stop and Remove Existing Containers') {
             steps {
                 script {
-                    echo "Attempting to stop and remove existing Docker Compose services..."
-                    sh "docker compose -f ${DOCKER_COMPOSE_FILE} down --timeout 0 --rmi all || true"
-                    echo "Cleaned up old containers and images (if any)."
+                    echo "Stopping existing containers (keeping volumes)..."
+                    sh "docker compose -f ${DOCKER_COMPOSE_FILE} down --timeout 0 || true"
+                    echo "Stopped existing containers."
                 }
             }
         }
@@ -41,7 +40,7 @@ pipeline {
                 script {
                     echo "Building and starting Docker Compose services..."
                     sh "docker compose -f ${DOCKER_COMPOSE_FILE} up --build -d"
-                    echo "Docker Compose services started."
+                    echo "Docker Compose services started and will remain running."
                 }
             }
         }
@@ -80,6 +79,11 @@ pipeline {
                             docker logs --tail 10 $container || true
                         fi
                     done
+                    
+                    echo "\\n=== Access URLs ==="
+                    echo "Frontend: http://localhost:5173"
+                    echo "Backend API: http://localhost:3000"
+                    echo "Mongo Express: http://localhost:8081"
                 '''
             }
         }
@@ -87,13 +91,9 @@ pipeline {
 
     post {
         always {
-            echo "Pipeline finished!"
-            script {
-                echo "Tearing down Docker Compose services..."
-                sh "docker compose -f ${DOCKER_COMPOSE_FILE} down --timeout 0 --volumes || true"
-                echo "Cleaned workspace."
-                cleanWs()
-            }
+            echo "Pipeline finished! Containers are still running."
+            echo "Access your application at: http://localhost:5173"
+            cleanWs()
         }
         failure {
             echo "❌ Pipeline failed!"
@@ -108,7 +108,7 @@ pipeline {
             '''
         }
         success {
-            echo "✅ Pipeline succeeded!"
+            echo "✅ Pipeline succeeded! Your app is running at http://localhost:5173"
         }
     }
 }
